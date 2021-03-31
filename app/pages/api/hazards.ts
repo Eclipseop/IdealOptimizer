@@ -15,7 +15,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	).data;
 	const $ = cheerio.load(data);
 
-	const temp = {};
+	const temp = {
+		dungeonName: "",
+		floorData: [],
+	};
+
+	temp["dungeonName"] = $("head title").text().split(" |")[0];
+
 	$("#tabledrop tr").each((i, item) => {
 		const ele = $(item);
 
@@ -25,9 +31,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const floorNum = $(ele.children().get(0)).html();
 		if (floorNum == "FLR") {
 			return;
-		}
-		if (temp[floorNum] == undefined) {
-			temp[floorNum] = [];
 		}
 
 		const skills = $(ele.children().get(7));
@@ -92,7 +95,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			num: +floorNum,
 			hazards: hazards,
 		};
-		temp[floorNum].push(BIG_DATA);
+		temp.floorData.push(BIG_DATA);
 	});
 
 	res.json(temp);
