@@ -8,7 +8,7 @@ const App: React.FC = () => {
 
 	return (
 		<div className="bg-gray-800 h-screen">
-			<div className="flex flex-col mx-auto max-w-md">
+			<div className="flex flex-col mx-auto max-w-lg">
 				<h1 className="text-white mx-auto text-lg">
 					Enter a PADX link:
 				</h1>

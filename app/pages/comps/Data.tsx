@@ -23,9 +23,9 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		const f = async () => {
-			const res = await axios.get(
-				"/api/hazards?id=" + props.link.substr(42, 4)
-			);
+			const match = props.link.match(/\d+/)[0];
+
+			const res = await axios.get("/api/hazards?id=" + match);
 			setData(res.data);
 		};
 		f();
@@ -50,7 +50,7 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 			return <div></div>;
 		}
 		return (
-			<div>
+			<div className="break-all">
 				{floor} - {JSON.stringify(ph)}
 			</div>
 		);
