@@ -9,10 +9,13 @@ interface FloorData {
 
 // Forgive me father for I have sinned by writing this code
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+	const dungId = req.query.id;
 	const data = (
-		await axios.get("http://puzzledragonx.com/en/mission.asp?m=2713")
+		await axios.get("http://puzzledragonx.com/en/mission.asp?m=" + dungId)
 	).data;
 	const $ = cheerio.load(data);
+
+	const temp = {};
 	$("#tabledrop tr").each((i, item) => {
 		const ele = $(item);
 
@@ -22,6 +25,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const floorNum = $(ele.children().get(0)).html();
 		if (floorNum == "FLR") {
 			return;
+		}
+		if (temp[floorNum] == undefined) {
+			temp[floorNum] = [];
 		}
 
 		const skills = $(ele.children().get(7));
@@ -78,13 +84,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (html.includes("hide all orbs on the board")) {
 			hazards.push("Blind");
 		}
+		if (html.includes("7x6")) {
+			hazards.push("7x6");
+		}
 
 		const BIG_DATA: FloorData = {
 			num: +floorNum,
 			hazards: hazards,
 		};
-		console.log(BIG_DATA);
+		temp[floorNum].push(BIG_DATA);
 	});
 
-	res.json({ name: "test" });
+	res.json(temp);
 };
