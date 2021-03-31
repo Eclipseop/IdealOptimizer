@@ -10,7 +10,7 @@ interface FloorData {
 // Forgive me father for I have sinned by writing this code
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = (
-		await axios.get("http://puzzledragonx.com/en/mission.asp?m=4720")
+		await axios.get("http://puzzledragonx.com/en/mission.asp?m=2713")
 	).data;
 	const $ = cheerio.load(data);
 	$("#tabledrop tr").each((i, item) => {
@@ -33,26 +33,50 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			} else {
 				hazards.push("Resolve");
 			}
-		} else if (html.includes("Disable active skills")) {
+		}
+		if (html.includes("Disable active skills")) {
 			hazards.push("SkillBind");
-		} else if (html.includes("Increases skyfall chance of Jammer orbs")) {
+		}
+		if (html.includes("Increases skyfall chance of Jammer orbs")) {
 			hazards.push("Skyfall_Jammer");
-		} else if (html.includes("Disable awoken skills")) {
+		}
+		if (html.includes("Disable awoken skills")) {
 			hazards.push("AwokenBind");
-		} else if (html.includes("spawn Poison orbs")) {
+		}
+		if (html.includes("spawn Poison orbs")) {
 			hazards.push("PoisonSpawn");
-		} else if (html.includes("into bomb")) {
+		}
+		if (html.includes("into bomb")) {
 			hazards.push("BombSpawn");
-		} else if (html.includes("Randomly hide")) {
-			hazards.push("Blind");
-		} else if (html.includes("Absorbs single hit damage over")) {
+		}
+		if (
+			html.includes("Randomly hide") ||
+			html.includes("Hide the following")
+		) {
+			hazards.push("SuperBlind");
+		}
+		if (html.includes("Absorbs single hit damage over")) {
 			hazards.push("DmgAbsorb");
-		} else if (html.includes(" damage you cause for combos")) {
+		}
+		if (html.includes(" damage you cause for combos")) {
 			hazards.push("ComboShield");
 			//TODO: find the actual combo number
-		} else if (html.includes("are unmatchable")) {
+		}
+		if (html.includes("are unmatchable")) {
 			hazards.push("Unmatchable");
 			//TODO: Find actual color
+		}
+		if (html.includes("Immune single hit damage over")) {
+			hazards.push("VDP");
+		}
+		if (html.includes("Clouds appear")) {
+			hazards.push("Cloud");
+		}
+		if (html.includes("Lock the following row")) {
+			hazards.push("Tape");
+		}
+		if (html.includes("hide all orbs on the board")) {
+			hazards.push("Blind");
 		}
 
 		const BIG_DATA: FloorData = {
