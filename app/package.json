@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint . "
+		"lint": "eslint . --fix"
 	},
 	"dependencies": {
 		"axios": "^0.21.1",
