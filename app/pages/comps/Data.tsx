@@ -23,6 +23,9 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		const f = async () => {
+			if (!props.link.includes("puzzledragonx.com/en/mission.asp?m=")) {
+				return;
+			}
 			const match = props.link.match(/\d+/)[0];
 
 			const res = await axios.get("/api/hazards?id=" + match);
@@ -60,7 +63,7 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 		<div className="text-green-300">
 			<h1 className=" text-lg">{data.dungeonName}</h1>
 			<div className="grid">
-				{[...Array(99)].map((e, i) => {
+				{[...Array(data.floorData.length)].map((e, i) => {
 					return test(i);
 				})}
 			</div>
