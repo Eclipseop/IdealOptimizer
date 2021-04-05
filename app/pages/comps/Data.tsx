@@ -1,42 +1,14 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 
 interface Props {
 	link: string;
-}
-
-interface DungeonData {
-	dungeonName: string;
-	floorData: FloorData[];
-}
-
-interface FloorData {
-	num: number;
-	hazards: string[];
+	data: DungeonData;
 }
 
 const DisplayData: React.FC<Props> = (props: Props) => {
-	const [data, setData] = useState<DungeonData>({
-		dungeonName: "",
-		floorData: [],
-	});
-
-	useEffect(() => {
-		const f = async () => {
-			if (!props.link.includes("puzzledragonx.com/en/mission.asp?m=")) {
-				return;
-			}
-			const match = props.link.match(/\d+/)[0];
-
-			const res = await axios.get("/api/hazards?id=" + match);
-			setData(res.data);
-		};
-		f();
-	}, [props.link]);
-
 	const possibleHazards = (floor: number): string[] => {
 		const temp = [];
-		data.floorData
+		props.data.floorData
 			.filter((p) => p.num == floor)
 			.map((p) => p.hazards)
 			.forEach((e) =>
@@ -67,54 +39,54 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 	const getImage = (id: string) => {
 		let tag = "/imgs/";
 		switch (id) {
-		case "Resolve":
-			tag += "resolve.png";
-			break;
-		case "PoisonSpawn":
-			tag += "poison.png";
-			break;
-		case "ComboShield":
-			tag += "combo.png";
-			break;
-		case "Tape":
-			tag += "tape.png";
-			break;
-		case "Blind":
-		case "SuperBlind":
-			tag += "blind.png";
-			break;
-		case "SkillBind":
-			tag += "sbr.png";
-			break;
-		case "VDP":
-			tag += "vdp.png";
-			break;
-		case "Cloud":
-			tag += "cloud.png";
-			break;
-		case "AwokenBind":
-			tag += "abind.png";
-			break;
-		case "Skyfall_Jammer":
-			tag += "jammer_surge.png";
-			break;
-		case "BombSpawn":
-			tag += "jammer.png";
-			break;
-		case "SuperResolve":
-			tag += "sresolve.png";
-			break;
-		case "Unmatchable":
-			tag += "unmatch.png";
-			break;
-		case "DmgAbsorb":
-			tag += "dmgAb.png";
-			break;
-		case "7x6":
-			tag += "7x6.png";
-			break;
-		default:
-			tag += id;
+			case "Resolve":
+				tag += "resolve.png";
+				break;
+			case "PoisonSpawn":
+				tag += "poison.png";
+				break;
+			case "ComboShield":
+				tag += "combo.png";
+				break;
+			case "Tape":
+				tag += "tape.png";
+				break;
+			case "Blind":
+			case "SuperBlind":
+				tag += "blind.png";
+				break;
+			case "SkillBind":
+				tag += "sbr.png";
+				break;
+			case "VDP":
+				tag += "vdp.png";
+				break;
+			case "Cloud":
+				tag += "cloud.png";
+				break;
+			case "AwokenBind":
+				tag += "abind.png";
+				break;
+			case "Skyfall_Jammer":
+				tag += "jammer_surge.png";
+				break;
+			case "BombSpawn":
+				tag += "jammer.png";
+				break;
+			case "SuperResolve":
+				tag += "sresolve.png";
+				break;
+			case "Unmatchable":
+				tag += "unmatch.png";
+				break;
+			case "DmgAbsorb":
+				tag += "dmgAb.png";
+				break;
+			case "7x6":
+				tag += "7x6.png";
+				break;
+			default:
+				tag += id;
 		}
 
 		return <img src={tag} width="30" height="30" title={id}></img>;
@@ -122,9 +94,9 @@ const DisplayData: React.FC<Props> = (props: Props) => {
 
 	return (
 		<div className="text-green-300">
-			<h1 className=" text-lg">{data.dungeonName}</h1>
+			<h1 className=" text-lg">{props.data.dungeonName}</h1>
 			<div className="grid">
-				{[...Array(data.floorData.length)].map((e, i) => {
+				{[...Array(props.data.floorData.length)].map((e, i) => {
 					return parseFloor(i);
 				})}
 			</div>
