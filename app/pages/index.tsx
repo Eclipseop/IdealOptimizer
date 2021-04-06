@@ -41,7 +41,7 @@ const App: React.FC = () => {
 				<div
 					className={
 						"text-green-300 " +
-						(dungeonData.dungeonName.length > 1 || link
+						(dungeonData.dungeonName.length > 1 || !link
 							? "invisible z-10 h-0"
 							: "")
 					}
