@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default (id: string) => {
 	let tag = "/imgs/";
 	switch (id) {
@@ -51,5 +53,5 @@ export default (id: string) => {
 			tag += id;
 	}
 
-	return <img src={tag} width="30" height="30" title={id}></img>;
+	return <Image src={tag} width="30" height="30" title={id} />;
 };
