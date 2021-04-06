@@ -1,6 +1,6 @@
 import React from "react";
 
-import GetImage from "../../util/GetImage";
+import GetImage from "./util/GetImage";
 
 interface Props {
 	link: string;

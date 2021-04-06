@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "tailwindcss/tailwind.css";
 import axios from "axios";
 
-import DisplayData from "./comps/FloorData";
-import OverallData from "./comps/OverallData";
+import DisplayData from "../comps/FloorData";
+import OverallData from "../comps/OverallData";
 
 const App: React.FC = () => {
 	const [link, setLink] = useState("");
